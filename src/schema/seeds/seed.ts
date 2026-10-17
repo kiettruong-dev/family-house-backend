@@ -1,6 +1,8 @@
 import 'dotenv/config';
-import mongoose from 'mongoose';
+import mongoose, { ObjectId } from 'mongoose';
 import { User, UserSchema } from '../user.schema.js';
+import { FamilyStatus } from '../../common/enums/family.enum.js';
+import { Family, FamilySchema } from '../families.schema.js';
 
 const connectToDatabase = async () => {
   const MONGODB_URI =
@@ -26,6 +28,28 @@ const seedUser = async () => {
   );
   return husband;
 };
+
+const seedFamily = async (husband: UserSchema & { _id: ObjectId }) => {
+  const FamilyModel =
+    mongoose.models.Family ?? mongoose.model(FamilySchema.name, Family);
+  const family = await FamilyModel.findOneAndUpdate(
+    { name: 'Truong Family' },
+    {
+      $set: {
+        name: 'Truong Family',
+        createdBy: husband._id,
+        status: FamilyStatus.ACTIVE,
+        settings: {
+          currency: 'VND',
+          timezone: 'Asia/Ho_Chi_Minh',
+        },
+      },
+    },
+    { upsert: true, new: true, runValidators: true },
+  );
+  return family;
+};
+
 async function seed() {
   try {
     await connectToDatabase();
@@ -33,6 +57,8 @@ async function seed() {
     const husband = await seedUser();
     console.log('Husband:', husband);
 
+    // seed family
+    const family = await seedFamily(husband);
     console.log('Seed completed successfully');
     process.exit(0);
   } catch (error) {
