@@ -1,9 +1,9 @@
 import 'dotenv/config';
 import mongoose, { ObjectId } from 'mongoose';
-import { User, UserSchema } from '../user.schema.js';
-import { FamilyStatus } from '../../common/enums/family.enum.js';
-import { Family, FamilySchema } from '../families.schema.js';
-
+import { User, UserSchema } from '../user.schema';
+import { FamilyStatus } from '../../common/enums/family.enum';
+import { Family, FamilySchema } from '../families.schema';
+import { PasswordHasher } from '@nestjs/authentication';
 const connectToDatabase = async () => {
   const MONGODB_URI =
     process.env.MONGO_URI ?? 'mongodb://localhost:27017/myapp';
@@ -20,7 +20,7 @@ const seedUser = async () => {
         userId: 'USR00001',
         name: 'Truong Kiet',
         email: 'kiettruong100702@gmail.com',
-        passwordHash: 'hashed_password',
+        passwordHash: await new PasswordHasher().hash('password123'),
         phone: '0704875988',
       },
     },

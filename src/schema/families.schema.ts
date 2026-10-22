@@ -3,8 +3,8 @@ import mongoose, { ObjectId } from 'mongoose';
 import {
   FamilyStatus,
   type FamilyStatusType,
-} from '../common/enums/family.enum.js';
-import { UserSchema } from './user.schema.js';
+} from '../common/enums/family.enum';
+import { UserSchema } from './user.schema';
 
 export class Settings {
   @Prop({ type: String, required: true })

@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { UserStatus, type UserStatusType } from '../common/enums/user.enum.js';
+import { UserStatus, type UserStatusType } from '../common/enums/user.enum';
 
 @Schema({ timestamps: true })
 export class UserSchema {
@@ -9,7 +9,7 @@ export class UserSchema {
   @Prop({ type: String, required: true })
   name: string;
 
-  @Prop({ type: String, required: true })
+  @Prop({ type: String, required: true, unique: true })
   email: string;
 
   @Prop({ type: String, required: true, select: false })
