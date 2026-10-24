@@ -1,7 +1,7 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { UsersService } from '../users/users.service';
-import { SignInDto } from './dto/sign-in.dto';
-import { UserStatus } from '../../common/enums/user.enum';
+import { UsersService } from '../users/users.service.js';
+import { SignInDto } from './dto/sign-in.dto.js';
+import { UserStatus } from '../../common/enums/user.enum.js';
 import { PasswordHasher, TokenService } from '@nestjs/authentication';
 
 @Injectable()

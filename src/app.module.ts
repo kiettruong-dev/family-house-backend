@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
-import { AppService } from './app.service';
+import { AppService } from './app.service.js';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import configuration from './config/configuration';
-import { DatabaseModule } from './database/database.module';
-import { UsersModule } from './apis/users/users.module';
-import { AuthModule } from './apis/auth/auth.module';
+import configuration from './config/configuration.js';
+import { DatabaseModule } from './database/database.module.js';
+import { UsersModule } from './apis/users/users.module.js';
+import { AuthModule } from './apis/auth/auth.module.js';
 import { AuthenticationModule } from '@nestjs/authentication';
 import { AuthorizationModule } from '@nestjs/authorization';
 

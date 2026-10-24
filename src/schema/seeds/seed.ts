@@ -1,8 +1,8 @@
 import 'dotenv/config';
 import mongoose, { ObjectId } from 'mongoose';
-import { User, UserSchema } from '../user.schema';
-import { FamilyStatus } from '../../common/enums/family.enum';
-import { Family, FamilySchema } from '../families.schema';
+import { User, UserSchema } from '../user.schema.js';
+import { FamilyStatus } from '../../common/enums/family.enum.js';
+import { Family, FamilySchema } from '../families.schema.js';
 import { PasswordHasher } from '@nestjs/authentication';
 const connectToDatabase = async () => {
   const MONGODB_URI =

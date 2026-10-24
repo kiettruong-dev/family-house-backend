@@ -1,9 +1,9 @@
 import { Body, Controller, Get, Post, Res } from '@nestjs/common';
 import { Public, SignInService } from '@nestjs/authentication';
-import { SignInDto } from './dto/sign-in.dto';
-import { AuthService } from './auth.service';
-import { Response } from 'express';
-import { ACCESS_TOKEN_COOKIE } from '../../common/constants/auth.constant';
+import { SignInDto } from './dto/sign-in.dto.js';
+import { AuthService } from './auth.service.js';
+import type { Response } from 'express';
+import { ACCESS_TOKEN_COOKIE } from '../../common/constants/auth.constant.js';
 
 @Controller('auth')
 export class AuthController {

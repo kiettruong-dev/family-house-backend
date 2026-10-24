@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { UserStatus, type UserStatusType } from '../common/enums/user.enum';
+import { UserStatus, type UserStatusType } from '../common/enums/user.enum.js';
 
 @Schema({ timestamps: true })
 export class UserSchema {

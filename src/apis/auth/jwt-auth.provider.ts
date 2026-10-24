@@ -5,8 +5,8 @@ import {
 } from '@nestjs/authentication';
 import { ExecutionContext, Injectable } from '@nestjs/common';
 import type { Request } from 'express';
-import { UsersService } from '../users/users.service';
-import { ACCESS_TOKEN_COOKIE } from '../../common/constants/auth.constant';
+import { UsersService } from '../users/users.service.js';
+import { ACCESS_TOKEN_COOKIE } from '../../common/constants/auth.constant.js';
 
 @Injectable()
 export class JwtAuth extends JwtBearerProvider<any> {
