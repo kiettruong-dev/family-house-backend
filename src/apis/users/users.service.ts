@@ -29,4 +29,13 @@ export class UsersService {
       throw new Error(`Failed to find user by ID: ${error}`);
     }
   }
+
+  async createUser(user: UserSchema) {
+    try {
+      const createdUser = await this.userModel.create(user);
+      return createdUser;
+    } catch (error) {
+      throw new Error(`Failed to create user: ${error}`);
+    }
+  }
 }

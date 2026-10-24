@@ -18,8 +18,6 @@ export class JwtAuth extends JwtBearerProvider<any> {
     registry.registerProvider(this);
   }
 
-  // JwtBearerProvider only reads the Authorization header, so when the request
-  // has none, lift the token from the httpOnly cookie set at sign-in.
   authenticate(context: ExecutionContext) {
     const req = context.switchToHttp().getRequest<Request>();
     const token = req?.cookies?.[ACCESS_TOKEN_COOKIE];

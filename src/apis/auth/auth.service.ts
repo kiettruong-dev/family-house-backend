@@ -1,8 +1,14 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { UsersService } from '../users/users.service.js';
 import { SignInDto } from './dto/sign-in.dto.js';
 import { UserStatus } from '../../common/enums/user.enum.js';
 import { PasswordHasher, TokenService } from '@nestjs/authentication';
+import { RegisterDto } from './dto/register.dto.js';
+import { generateCodeId } from '../../utils/helper.util.js';
 
 @Injectable()
 export class AuthService {
@@ -39,5 +45,39 @@ export class AuthService {
       },
     );
     return { user, token: tokenInfo.accessToken };
+  }
+
+  async register({ email, name, password, phone, avatarUrl }: RegisterDto) {
+    try {
+      const userExists = await this.usersService.findUserByEmail(email);
+      if (userExists) {
+        throw new ConflictException('User already exists');
+      }
+      const userId = generateCodeId('USR');
+      const hashedPassword = await this.passwordHasher.hash(password);
+      const user = await this.usersService.createUser({
+        email,
+        name,
+        passwordHash: hashedPassword,
+        phone,
+        avatarUrl,
+        userId,
+        status: UserStatus.ACTIVE,
+      });
+      const tokenInfo = await this.tokenService.issue(
+        user._id.toString() as string,
+        {
+          method: 'password',
+          claims: {
+            email: user.email,
+            name: user.name,
+            status: user.status,
+          },
+        },
+      );
+      return { user, token: tokenInfo.accessToken };
+    } catch (error) {
+      throw error;
+    }
   }
 }
