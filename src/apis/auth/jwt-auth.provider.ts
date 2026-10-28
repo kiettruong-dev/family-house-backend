@@ -8,6 +8,7 @@ import type { Request } from 'express';
 import { UsersService } from '../users/users.service.js';
 import { ACCESS_TOKEN_COOKIE } from '../../common/constants/auth.constant.js';
 
+export type CurrentUserType = Awaited<ReturnType<JwtAuth['validate']>> | any;
 @Injectable()
 export class JwtAuth extends JwtBearerProvider<any> {
   constructor(
@@ -27,7 +28,9 @@ export class JwtAuth extends JwtBearerProvider<any> {
     return super.authenticate(context);
   }
 
-  protected validate(claims: JwtClaims) {
-    return this.usersService.findUserById(claims.sub!);
+  protected async validate(claims: JwtClaims) {
+    const user = await this.usersService.findUserById(claims.sub!);
+    // add user to request (req.user)
+    return user;
   }
 }

@@ -5,3 +5,9 @@ export const generateCodeId = (prefix: string) => {
   const year = new Date().getFullYear().toString().slice(-2);
   return `${prefix}${day}${month}${year}${timestamp}`;
 };
+
+export const calulateSkip = (page: number | string, limit: number | string) => {
+  if (!page || !limit) return 0;
+  if (Number(page) === 1) return 0;
+  return (Number(page) - 1) * Number(limit);
+};

@@ -10,12 +10,6 @@ async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
   app.use(cookieParser());
-  if (process.env.VERCEL) {
-    await app.init();
-  } else {
-    await app.listen(process.env.PORT ?? 3000);
-  }
-
   app.useGlobalPipes(
     new ValidationPipe({
       transform: true,
@@ -23,6 +17,13 @@ async function bootstrap() {
       forbidNonWhitelisted: true,
     }),
   );
+
+  if (process.env.VERCEL) {
+    await app.init();
+  } else {
+    await app.listen(process.env.PORT ?? 3000);
+  }
+
   return app.getHttpAdapter().getInstance();
 }
 

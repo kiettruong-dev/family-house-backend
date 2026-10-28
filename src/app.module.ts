@@ -7,6 +7,7 @@ import { UsersModule } from './apis/users/users.module.js';
 import { AuthModule } from './apis/auth/auth.module.js';
 import { AuthenticationModule } from '@nestjs/authentication';
 import { AuthorizationModule } from '@nestjs/authorization';
+import { FamiliesModule } from './apis/families/families.module.js';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { AuthorizationModule } from '@nestjs/authorization';
 
     UsersModule,
     AuthModule,
+    FamiliesModule,
   ],
   providers: [AppService],
 })
