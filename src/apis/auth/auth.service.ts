@@ -64,18 +64,8 @@ export class AuthService {
         userId,
         status: UserStatus.ACTIVE,
       });
-      const tokenInfo = await this.tokenService.issue(
-        user._id.toString() as string,
-        {
-          method: 'password',
-          claims: {
-            email: user.email,
-            name: user.name,
-            status: user.status,
-          },
-        },
-      );
-      return { user, token: tokenInfo.accessToken };
+
+      return { user };
     } catch (error) {
       throw error;
     }

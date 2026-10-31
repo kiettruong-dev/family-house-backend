@@ -27,9 +27,7 @@ import { FamiliesModule } from './apis/families/families.module.js';
         refreshToken: false,
       }),
     }),
-    AuthorizationModule.forRoot({
-      globalGuard: true,
-    }),
+    AuthorizationModule.forRoot(),
 
     UsersModule,
     AuthModule,

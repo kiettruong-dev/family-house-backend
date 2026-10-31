@@ -7,6 +7,7 @@ import {
   FamiliesMember,
   FamiliesMemberSchema,
 } from '../../schema/families_member.schema.js';
+import { FamiliesPolicy } from './families.policy.js';
 
 @Module({
   imports: [
@@ -16,7 +17,7 @@ import {
     ]),
   ],
   controllers: [FamiliesController],
-  providers: [FamiliesService],
-  exports: [FamiliesService],
+  providers: [FamiliesService, FamiliesPolicy],
+  exports: [FamiliesService, FamiliesPolicy],
 })
 export class FamiliesModule {}

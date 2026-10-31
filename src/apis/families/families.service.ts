@@ -16,6 +16,10 @@ import {
 } from '../../common/enums/family.enum.js';
 import { QueryFamilyDto } from './dto/query-famify.dto.js';
 import { calulateSkip } from '../../utils/helper.util.js';
+import {
+  UpdateFamilyDto,
+  UpdateFamilySatusDto,
+} from './dto/update-family.dto.js';
 
 @Injectable()
 export class FamiliesService {
@@ -134,16 +138,14 @@ export class FamiliesService {
     }
   }
 
-  async getFamilyById(familyId: string, userId: Types.ObjectId) {
+  async getFamilyById(familyId: string) {
     try {
       const family = await this.familyModel
-        .findOne({ _id: familyId, createdBy: userId })
+        .findOne({ _id: familyId })
         .lean()
         .exec();
       if (!family) {
-        throw new NotFoundException(
-          'Family not found or you are not the owner of this family',
-        );
+        throw new NotFoundException('Family not found');
       }
       const members = await this.familiesMemberModel
         .find({ familyId: new mongoose.Types.ObjectId(familyId) })
@@ -154,6 +156,46 @@ export class FamiliesService {
       return { family, familyMembers: members };
     } catch (error) {
       console.error('Error fetching family by ID:', error);
+      throw error;
+    }
+  }
+
+  async updateFamily(familyId: string, updateFamilyDto: UpdateFamilyDto) {
+    try {
+      const family = await this.familyModel
+        .findOneAndUpdate(
+          { _id: familyId },
+          { $set: { ...updateFamilyDto } },
+          { new: true },
+        )
+        .lean()
+        .exec();
+      if (!family) {
+        throw new NotFoundException('Family not found');
+      }
+      return family;
+    } catch (error) {
+      console.error('Error updating family:', error);
+      throw error;
+    }
+  }
+
+  async updateFamilyStatus(familyId: string, { status }: UpdateFamilySatusDto) {
+    try {
+      const family = await this.familyModel
+        .findOneAndUpdate(
+          { _id: familyId },
+          { $set: { status } },
+          { new: true },
+        )
+        .lean()
+        .exec();
+      if (!family) {
+        throw new NotFoundException('Family not found');
+      }
+      return family;
+    } catch (error) {
+      console.error('Error updating family status:', error);
       throw error;
     }
   }

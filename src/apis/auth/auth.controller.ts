@@ -39,13 +39,8 @@ export class AuthController {
     @Body() body: RegisterDto,
     @Res({ passthrough: true }) res: Response,
   ) {
-    const { user, token } = await this.authService.register(body);
-    res.cookie(ACCESS_TOKEN_COOKIE, token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
-      maxAge: 24 * 60 * 60 * 1000, // 1 ngày
-    });
+    const { user } = await this.authService.register(body);
+
     return {
       user: {
         userId: user.userId,
